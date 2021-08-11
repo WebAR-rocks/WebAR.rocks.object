@@ -39,6 +39,7 @@
 * [About the tech](#about-the-tech)
   * [Under the hood](#under-the-hood)
   * [Compatibility](#compatibility)
+* [License](#license)
 * [References](#references)
 
 
@@ -387,6 +388,16 @@ If a compatibility error is triggered, please post an issue on this repository. 
 * a screenshot of [webglreport.com - WebGL2](http://webglreport.com/?v=2) (about your `WebGL2` implementation),
 * the log from the web console,
 * the steps to reproduce the bug, and screenshots.
+
+
+## License
+
+This code repository is dual licensed. You have to choose between these 2 licenses:
+
+1. [GPLv3](GPLv3.txt) (free default option)
+2. [Nominative commercial license](https://webar.rocks/buyCommercialLicense) (not free)
+
+For more information, please read [LICENSE](/LICENSE) file.
 
 
 ## References

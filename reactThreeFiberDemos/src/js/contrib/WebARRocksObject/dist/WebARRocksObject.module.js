@@ -1,20 +1,11 @@
 /**
  * Copyright (c) 2020 WebAR.rocks ( https://webar.rocks )
+ * This code is released under dual licensing:
+ *   - GPLv3 
+ *   - Nominative commercial license
+ * Please read https://github.com/WebAR-rocks/WebAR.rocks.object/blob/master/LICENSE
  * 
- * You cannot reproduce, sublicense, distribute or sell this software or part of this software without an explicit (and written) authorization of WebAR.rocks.
- * 
- * You should be granted by a written agreement by WebAR.rocks to use this software for an explicit period of time (e.g. yearly).
- * This agreement should list the domain(s) where this software can be hosted. Each subdomain is considered as a separate domain. A 301 or 302 HTTP direction to an authorized domain is authorized too.
- * 
- * You cannot use this software or part of this software for other purpose than rigid head accessories virtual try-on.
- * 
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
- * 
-*/
-
-/* eslint-disable */
+*//* eslint-disable */
 /*
  SharedContext.is_webgl2() &&*/
 function $a(){this.wa=!1;this.ea=null;this.Xc=void 0;this.ba=1;this.oc=this.gd=0;this.ra=null}function ib(H){if(H.wa)throw new TypeError("Generator is already running");H.wa=!0}$a.prototype.ya=function(H){this.Xc=H};$a.prototype.Da=function(H){this.ra={td:H,Md:!0};this.ba=this.gd||this.oc};$a.prototype.return=function(H){this.ra={return:H};this.ba=this.oc};function jb(H){this.s=new $a;this.be=H}
@@ -22,7 +13,7 @@ jb.prototype.ya=function(H){ib(this.s);if(this.s.ea)return pb(this,this.s.ea.nex
 function pb(H,ba,ra,wa){try{var Aa=ba.call(H.s.ea,ra);if(!(Aa instanceof Object))throw new TypeError("Iterator result "+Aa+" is not an object");if(!Aa.done)return H.s.wa=!1,Aa;var Ja=Aa.value}catch(sa){return H.s.ea=null,H.s.Da(sa),qb(H)}H.s.ea=null;wa.call(H.s,Ja);return qb(H)}
 function qb(H){for(;H.s.ba;)try{var ba=H.be(H.s);if(ba)return H.s.wa=!1,{value:ba.value,done:!1}}catch(ra){H.s.Xc=void 0,H.s.Da(ra)}H.s.wa=!1;if(H.s.ra){ba=H.s.ra;H.s.ra=null;if(ba.Md)throw ba.td;return{value:ba.return,done:!0}}return{value:void 0,done:!0}}function Bb(H){this.next=function(ba){return H.ya(ba)};this.throw=function(ba){return H.Da(ba)};this.return=function(ba){return Ab(H,ba)};this[Symbol.iterator]=function(){return this}}
 function Tb(H){function ba(wa){return H.next(wa)}function ra(wa){return H.throw(wa)}return new Promise(function(wa,Aa){function Ja(sa){sa.done?wa(sa.value):Promise.resolve(sa.value).then(ba,ra).then(Ja,Aa)}Ja(H.next())})}
-const WEBARROCKSOBJECT=function(){function H(b){var c=null,e=null,f=null,q=0;this.B=function(k){this.je(k.Ua);f.kd({Lb:k.Lb,Ib:k.Ib})};this.Ed=function(k){return c[k]};this.je=function(k){var r=null;q=k.length;c=k.map(function(l,h){l=Object.assign({},l,{index:h,parent:this,bb:r,Pd:h===q-1});return r=h=0===h?Ub.instance(l):Vb.instance(l)});e=c[0];f=c[q-1];c.forEach(function(l,h){0!==h&&l.ae()})};this.L=function(k){var r=k;c.forEach(function(l){r=l.L(r,!1)});return r};this.$d=function(k){var r,l,h;return Tb(new Bb(new jb(function(u){r=
+const JEEARAPI=function(){function H(b){var c=null,e=null,f=null,q=0;this.B=function(k){this.je(k.Ua);f.kd({Lb:k.Lb,Ib:k.Ib})};this.Ed=function(k){return c[k]};this.je=function(k){var r=null;q=k.length;c=k.map(function(l,h){l=Object.assign({},l,{index:h,parent:this,bb:r,Pd:h===q-1});return r=h=0===h?Ub.instance(l):Vb.instance(l)});e=c[0];f=c[q-1];c.forEach(function(l,h){0!==h&&l.ae()})};this.L=function(k){var r=k;c.forEach(function(l){r=l.L(r,!1)});return r};this.$d=function(k){var r,l,h;return Tb(new Bb(new jb(function(u){r=
 k;for(l=0;l<q-1;++l)h=c[l],r=h.L(r,!1);var x=c[q-1].L(r,!0);u.ba=0;return{value:x}})))};this.Dd=function(){return e.C()};this.Hd=function(){return f.C()};this.tc=function(){return f.Gd()};this.rc=function(){return f.rc()};this.u=function(){c&&(c.forEach(function(k){k.u()}),f=e=c=null,q=0)};"undefined"!==typeof b&&this.B(b)}var ba;function ra(b,c){var e=c%8;return b[(c-e)/8]>>7-e&1}function wa(b){var c=JSON.parse(b);b=c.ne;var e=c.nf,f=c.n;var q="undefined"===typeof btoa?Buffer.from(c.data,"base64").toString("latin1"):
 atob(c.data);var k=q.length;c=new Uint8Array(k);for(var r=0;r<k;++r)c[r]=q.charCodeAt(r);q=new Float32Array(f);k=new Float32Array(e);r=b+e+1;for(var l=0;l<f;++l){for(var h=r*l,u=0===ra(c,h)?1:-1,x=h+1,w=1,d=0,v=x+b-1;v>=x;--v)d+=w*ra(c,v),w*=2;x=d;h=h+1+b;w=k.length;d=0;for(v=h;v<h+w;++v)k[d]=ra(c,v,!0),++d;for(w=h=0;w<e;++w)h+=k[w]*Math.pow(2,-w-1);q[l]=0===h&&0===x?0:u*(1+h)*Math.pow(2,1+x-Math.pow(2,b-1))}return q}function Aa(b){if(b){var c=b.w,e=b.h;D.I.ta[0]=-1+2*(b.x+c/2)/D.da;D.I.ta[1]=-1+
 2*(b.y+e/2)/D.ca;D.I.scale[0]=c/D.da;D.I.scale[1]=e/D.ca}else D.I.ta[0]=0,D.I.ta[1]=0,D.I.scale[0]=1,D.I.scale[1]=1;D.S=D.da*D.I.scale[0];D.O=D.ca*D.I.scale[1]}function Ja(){var b=[{type:"2f",name:"u33",value:D.I.ta},{type:"2f",name:"u34",value:D.I.scale}],c=b.concat([{type:"1f",name:"u35",value:D.da/D.ca},{name:"u7",type:"2f",value:[1/D.da,1/D.ca]}]);B.K("s49",c);B.K("s50",c);B.K("s51",b)}function sa(b,c,e){var f=Ka(b,c,"dx")*D.la[0],q=Ka(b,c,"dy")*D.la[1];b=e[2]*Ka(b,c,"ds");if(Ta){c=Math.cos(Da);
@@ -153,5 +144,5 @@ WorkerGlobalScope;-1!==ca.Ha&&(ta.width=ca.Ha,ta.height=ca.Ha);lb.set_source(b.v
 b.tagName?(D.da=L.element.videoWidth,D.ca=L.element.videoHeight,L.type=Ma.video):(D.da=L.element.width,D.ca=L.element.height,L.type=Ma.dc),Aa(c)):L.current=Xa.Wc;-1===[fa.fa,fa.LOADING].indexOf(qa)&&(L.ka&&L.ka.D&&(L.ka.D=b),Va(),Ja(),L.type===Ma.dc&&L.H.refresh())},set_NN:function(b,c,e){if(db===Wa.LOADING)c&&c("NN_LOADING");else{var f=function(q){db=Wa.IDLE;c&&c(q)};db=Wa.LOADING;"string"===typeof b?Pb.get(b,function(q){if(!q)return f("INVALID_NN");var k=null;try{k=JSON.parse(q)}catch(r){return f("INVALID_NN")}Kb(k,
 f,e)},function(){f("NOTFOUND_NN")}):Kb(b,f,e)}},reset_state:function(){Hb();qa=fa.qa},destroy:function(){lb.reset_state();Pa&&Pa.u();Qa.u();db=Wa.fa;qa=fa.fa;return Promise.resolve()},detect_async:function(b,c,e){var f,q;return Tb(new Bb(new jb(function(k){switch(k.ba){case 1:f=Lb(b,c,e);if(-1===f)return k.return(ma);q=0;case 2:if(!(q<f)){k.ba=4;break}Mb(q,f);var r=Pa.$d(Q.H);k.ba=5;return{value:r};case 5:Fa.W();++q;k.ba=2;break;case 4:return k.return(Nb())}})))},detect:function(b,c,e){b=Lb(b,c,e);
 if(-1===b)return ma;for(c=0;c<b;++c)Mb(c,b),Pa.L(Q.H),Fa.W();return Nb()},get_aspectRatio:function(){return D.S/D.O},set_scanSettings:function(b){Object.assign(La,b);Va()},set_videoCrop:function(b){Aa(b);Ja();Va()}};return lb}();
-export default WEBARROCKSOBJECT;
+if(typeof(module)!=='undefined'){module.exports=JEEARAPI;}
 /* eslint-enable */

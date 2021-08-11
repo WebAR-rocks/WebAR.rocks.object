@@ -1,20 +1,11 @@
 /**
  * Copyright (c) 2020 WebAR.rocks ( https://webar.rocks )
+ * This code is released under dual licensing:
+ *   - GPLv3 
+ *   - Nominative commercial license
+ * Please read https://github.com/WebAR-rocks/WebAR.rocks.object/blob/master/LICENSE
  * 
- * You cannot reproduce, sublicense, distribute or sell this software or part of this software without an explicit (and written) authorization of WebAR.rocks.
- * 
- * You should be granted by a written agreement by WebAR.rocks to use this software for an explicit period of time (e.g. yearly).
- * This agreement should list the domain(s) where this software can be hosted. Each subdomain is considered as a separate domain. A 301 or 302 HTTP direction to an authorized domain is authorized too.
- * 
- * You cannot use this software or part of this software for other purpose than rigid head accessories virtual try-on.
- * 
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
- * 
-*/
-
-"use strict;"
+*/"use strict;"
 var WebARRocksMediaStreamAPIHelper = {
   get_videoElement: function() {
     if (!WebARRocksMediaStreamAPIHelper.compat()) return false;
@@ -151,10 +142,21 @@ var WebARRocksMediaStreamAPIHelper = {
     };
 
     if (typeof(constraints['deviceId']) !== 'undefined'){
-      constraintsCloned['deviceId'] = constraints['deviceId'];
+      WebARRocksMediaStreamAPIHelper.add_deviceIdConstraint(constraintsCloned, constraints['deviceId']);
     }
     return constraintsCloned;
   }, //end clone_constraints()
+
+
+  add_deviceIdConstraint: function(constraints, deviceId){
+    if (!deviceId) return;
+    constraints['video'] = constraints['video'] || {};
+    constraints['video']['deviceId'] = {'exact': deviceId};
+    if (constraints['video']['facingMode']){
+      delete(constraints['video']['facingMode']);
+    }
+  },
+
 
   switch_widthHeight: function(constraints){
     const mvw = constraints['video']['width'];
@@ -162,6 +164,7 @@ var WebARRocksMediaStreamAPIHelper = {
     constraints['video']['height'] = mvw;
     return constraints;
   },
+
 
   create_fallbackConstraints: function(constraints){
     // returnq an array of constraints to test
@@ -277,6 +280,7 @@ var WebARRocksMediaStreamAPIHelper = {
     return fallbackConstraints;
   }, //end create_fallbackConstraints()
 
+
   switch_whIfPortrait: function(mandatory){
     if (WebARRocksMediaStreamAPIHelper.is_portrait()){ // portrait display
       if (!mandatory || !mandatory['video']){
@@ -325,7 +329,12 @@ var WebARRocksMediaStreamAPIHelper = {
     } //end if safari
   }, //end mute()
 
+
   toggle_stream( video, isPlaying, mandatoryConstraints){
+    if (video === null){
+      return Promise.resolve();
+    }
+    
     return new Promise(function(accept, reject){
       if (!video['srcObject'] || !video['srcObject']['getVideoTracks']){
         reject('BAD_IMPLEMENTATION');
@@ -347,6 +356,7 @@ var WebARRocksMediaStreamAPIHelper = {
     }); //end return new Promise
   },
 
+
   // get raw video stream (called by get())
   get_raw: function(video, callbackSuccess, callbackError, constraints){
     let isErrorRaw = false;
@@ -361,11 +371,11 @@ var WebARRocksMediaStreamAPIHelper = {
     const on_successRaw = function(video, localMediaStream, optionsReturned){
       if (isErrorRaw){
         console.log('WARNING in WebARRocksMediaStreamAPIHelper - get_raw(): cannot launch callbackSuccess because an error was thrown');
-        console.log(JSON.stringify(constraints.video));
+        console.log(JSON.stringify(constraints));
         return;
       }
       console.log('INFO in WebARRocksMediaStreamAPIHelper - get_raw(): callbackSuccess called with constraints=');
-      console.log(JSON.stringify(constraints.video));
+      console.log(JSON.stringify(constraints));
       callbackSuccess(video, localMediaStream, optionsReturned);
     }
 
@@ -444,6 +454,8 @@ var WebARRocksMediaStreamAPIHelper = {
 
         function onMetaDataLoaded() {
           console.log('INFO in WebARRocksMediaStreamAPIHelper - get_raw(): video.onloadedmetadata dispatched');
+          
+          video.removeEventListener('loadeddata', onMetaDataLoaded, false);
 
           const playPromise = video['play']();
           WebARRocksMediaStreamAPIHelper.mute(video);
