@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<htmL>
+  <head>
+    <title>AR Coffee offered by WebAR.rocks</title>
+    <meta charset='utf-8'/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <!-- WebAR.rocks.object LIBRARY: -->
+    <script src='../../../dist/WebARRocksObject.js'></script>
+
+    <!-- HELPER TO GET THE CAMERA VIDEO STREAM: -->
+    <script src='../../../helpers/WebARRocksMediaStreamAPIHelper.js'></script>
+
+    <!-- THIRD PARTY LIBRARIES: -->
+    <script src='../../../libs/three/v119/three.min.js'></script>
+    <script src='../../../libs/tween/tween.min.js'></script>
+
+    <!-- THREE.JS HELPER: -->
+    <script src='../../../helpers/WebARRocksObjectThreeHelper.js'></script>
+
+    <!-- STABILIZER: -->
+    <script src='../../../helpers/WebARRocksThreeStabilizer.js'></script>
+
+    <!-- AR COFFEE ANIMATION: -->
+    <script src='../../webxrCoffee/CoffeeAnimation.js'></script>
+    <script src='../../../libs/three/v95/TeapotBufferGeometry.js'></script>
+
+    <!-- SHARE BUTTONS -->
+    <script src='https://platform-api.sharethis.com/js/sharethis.js#property=5d699c2316b81b0012138a7b&product=inline-share-buttons' async='async'></script>
+
+    <!-- MAIN SCRIPT: -->
+    <script src='main.js'></script>
+    
+    <link rel='stylesheet' href='style.css' type='text/css'/>
+    <link href="https://fonts.googleapis.com/css?family=Hepta+Slab&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <canvas id='ARCanvas'></canvas>
+    <canvas id='threeCanvas'></canvas>
+    <video id='webcamVideo'></video>
+
+    <div class='userManual' id='userManual'>
+      The coffee is ready!<br/>
+      In which mug it should be poured?
+    </div>
+
+    <div class='notice'>
+      <div class='noticeText'>
+        AR Coffee offered by <a href='https://webar.rocks' target='_blank'>WebAR.rocks</a>
+      </div>
+      <div class="sharethis-inline-share-buttons"></div>
+    </div>
+  </body>
+</htmL>
