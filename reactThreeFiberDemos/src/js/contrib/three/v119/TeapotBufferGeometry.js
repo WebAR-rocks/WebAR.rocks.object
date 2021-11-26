@@ -391,7 +391,7 @@ var TeapotBufferGeometry = function ( size, segments, bottom, lid, body, fitLid,
 		1.5, - 0.84, 0.075
 	];
 
-	BufferGeometry.call( this );
+	const geom = new BufferGeometry();
 
 	size = size || 50;
 
@@ -707,12 +707,14 @@ var TeapotBufferGeometry = function ( size, segments, bottom, lid, body, fitLid,
 
 	}
 
-	this.setIndex( new BufferAttribute( indices, 1 ) );
-	this.setAttribute( 'position', new BufferAttribute( vertices, 3 ) );
-	this.setAttribute( 'normal', new BufferAttribute( normals, 3 ) );
-	this.setAttribute( 'uv', new BufferAttribute( uvs, 2 ) );
+	geom.setIndex( new BufferAttribute( indices, 1 ) );
+	geom.setAttribute( 'position', new BufferAttribute( vertices, 3 ) );
+	geom.setAttribute( 'normal', new BufferAttribute( normals, 3 ) );
+	geom.setAttribute( 'uv', new BufferAttribute( uvs, 2 ) );
 
-	this.computeBoundingSphere();
+	geom.computeBoundingSphere();
+
+  return geom;
 
 };
 

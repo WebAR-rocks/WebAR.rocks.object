@@ -14,7 +14,6 @@ body {
 
 #webcamVideo {
   z-index: 1;
-  object-fit: cover;
 }
  
 #threeCanvas, #webcamVideo {

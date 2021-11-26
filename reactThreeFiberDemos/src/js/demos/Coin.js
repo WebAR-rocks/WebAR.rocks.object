@@ -17,7 +17,7 @@ let _threeFiber = null
 
 
 // This mesh follows the object. put stuffs in it.
-// Its position and orientation is controlled by Jeeliz THREE.js helper
+// Its position and orientation is controlled by the THREE.js helper
 const ObjectFollower = (props) => {
   // This reference will give us direct access to the mesh
   const objRef = useRef()

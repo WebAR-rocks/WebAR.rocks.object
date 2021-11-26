@@ -202,7 +202,7 @@ const WebARRocksThreeStabilizer = (function(){
         _quaternionSlerps.forEach(function(quaternionSlerpLevel, level){
           const previousLevelQuats = (level === 0) ? quaternions : _quaternionSlerps[level - 1];
           quaternionSlerpLevel.forEach(function(quat, i){
-            THREE.Quaternion.slerp( previousLevelQuats[2*i], previousLevelQuats[2*i + 1], quat, 0.5 );
+            quat.slerpQuaternions(previousLevelQuats[2*i], previousLevelQuats[2*i + 1], 0.5);
             if (level === _spec.n - 1){
               result.copy(quat);
             }

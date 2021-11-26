@@ -408,3 +408,5 @@ For more information, please read [LICENSE](/LICENSE) file.
 * WebXR for iOS by the Mozilla Fundation: [github repository of the viewer](https://github.com/mozilla-mobile/webxr-ios), [WebXR viewer on Apple Appstore](https://itunes.apple.com/us/app/webxr-viewer/id1295998056), [github repository of demos](https://github.com/mozilla/webxr-polyfill)
 * [MDN Media Streams API MediaConstraints doc](https://developer.mozilla.org/en-US/docs/Web/API/Media_Streams_API/Constraints)
 * [Webgl Academy: interactive tutorials about WebGL and THREE.JS](http://www.webglacademy.com)
+* [WebAR.rocks on Linkedin](https://www.linkedin.com/company/webar-rocks)
+* [WebAR.rocks on Twitter](https://twitter.com/Jeeliz_AR)
