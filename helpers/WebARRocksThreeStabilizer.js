@@ -30,6 +30,7 @@ const WebARRocksThreeStabilizer = (function(){
     result.divideScalar(positions.length);
   }
 
+
   function compute_velocityPositionMean(cursor, positions, dts, result){
     const n = positions.length;
     result.set(0, 0, 0);
@@ -45,6 +46,7 @@ const WebARRocksThreeStabilizer = (function(){
     }
     result.divideScalar(n-1);
   }
+
 
   function compute_velocityAngleMean(cursor, quaternions, dts){
     let r = 0;
@@ -63,6 +65,7 @@ const WebARRocksThreeStabilizer = (function(){
     return r;
   }
 
+
   function compute_positionsSigma(positions, mean, result){
     result.set(0, 0, 0);
     const diff = new THREE.Vector3();
@@ -75,6 +78,7 @@ const WebARRocksThreeStabilizer = (function(){
     result.set(Math.sqrt(result.x), Math.sqrt(result.y), Math.sqrt(result.z));
   }
 
+
   function compute_quaternionsSigma(quaternions, mean){
     let angle = 0;
     quaternions.forEach(function(quat){
@@ -83,6 +87,7 @@ const WebARRocksThreeStabilizer = (function(){
     });
     return Math.sqrt(angle / quaternions.length);
   }
+
 
   return {
     instance: function(spec){
@@ -148,6 +153,7 @@ const WebARRocksThreeStabilizer = (function(){
         return diffVal * k + meanDiffVal * (1-k);
       }
 
+
       function save_positionQuaternion(threePosition, threeQuaternion){
         const t = performance.now() / 1000; // in seconds
         const cursPrev = (_curs === 0) ? _N-1 : _curs - 1;
@@ -164,14 +170,17 @@ const WebARRocksThreeStabilizer = (function(){
         _lastQuaternions[_curs].copy(threeQuaternion);
       }
 
+
       function increment_cursor(){
         _curs = (_curs + 1) % _N;
       }
+
 
       function apply_positionQuaternion(threePosition, threeQuaternion){
         _spec.obj3D.quaternion.copy(threeQuaternion);
         _spec.obj3D.position.copy(threePosition);
       }
+
 
       function allocate_quaternionsMeansIntermediary(){
         for (let i=_spec.n-1; i>=0; --i){
@@ -184,17 +193,20 @@ const WebARRocksThreeStabilizer = (function(){
         }
       }
 
+
       function compute_quaternionsMean(quaternions, result){
         _quaternionSlerps.forEach(function(quaternionSlerpLevel, level){
           const previousLevelQuats = (level === 0) ? quaternions : _quaternionSlerps[level - 1];
           quaternionSlerpLevel.forEach(function(quat, i){
-            THREE.Quaternion.slerp( previousLevelQuats[2*i], previousLevelQuats[2*i + 1], quat, 0.5 );
+            //THREE.Quaternion.slerp( previousLevelQuats[2*i], previousLevelQuats[2*i + 1], quat, 0.5 );
+            quat.slerpQuaternions(previousLevelQuats[2*i], previousLevelQuats[2*i + 1], 0.5);
             if (level === _spec.n - 1){
               result.copy(quat);
             }
           });
         });
       }
+
 
       const that = {
         update: function(threePosition, threeQuaternion){
@@ -240,6 +252,7 @@ const WebARRocksThreeStabilizer = (function(){
           apply_positionQuaternion(_positionStabilized, _quaternionStabilized);
           increment_cursor();
         },
+
 
         reset: function(){
           _counter = 0;

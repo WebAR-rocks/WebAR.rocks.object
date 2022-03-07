@@ -28,7 +28,7 @@
   - <boolean> isFullScreen
   - <float> zOffset - 0.5 by default, relative
  */
-"use strict";
+
 
 const WebARRocksObjectThreeHelper = (function(){
   const _settings = {

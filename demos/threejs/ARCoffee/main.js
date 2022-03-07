@@ -38,8 +38,11 @@ const _settings = {
 let _DOMvideo = null;
 let _isFirstDetection = true;
 
+
 // entry point:
 function main(){
+  THREE.TeapotBufferGeometry = THREE.TeapotGeometry;
+
   _DOMvideo = document.getElementById('webcamVideo');
   WebARRocksMediaStreamAPIHelper.get(_DOMvideo, init, function(err){
     throw new Error('Cannot get video feed ' + err);
@@ -52,6 +55,7 @@ function main(){
     audio: false
  });
 }
+
 
 // executed when video is OK:
 function init(){
@@ -73,6 +77,7 @@ function init(){
     stabilizerOptions: {}
   });
 }
+
 
 // Executed when WebAR.rocks.object is initialized and NN is loaded:
 function start(){
@@ -105,6 +110,7 @@ function start(){
   animate();
 }
 
+
 //main loop (rendering + detecting)
 function animate(){
   CoffeeAnimation.update();
@@ -112,9 +118,11 @@ function animate(){
   window.requestAnimationFrame(animate);
 }
 
+
 function resize(){
   WebARRocksObjectThreeHelper.resize();
 }
+
 
 window.addEventListener('load', main);
 window.addEventListener('resize', resize);

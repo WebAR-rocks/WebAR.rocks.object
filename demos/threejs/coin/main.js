@@ -50,18 +50,26 @@ function main(){
  });
 }
 
+
 // executed when video is ready:
 function init(){
   const ARCanvas = document.getElementById('ARCanvas');
+  const threeCanvas = document.getElementById('threeCanvas');
   //alert('Video resolution: ' + _DOMVideo.videoWidth.toString() + 'x' + _DOMVideo.videoHeight.toString());
 
   WebARRocksObjectThreeHelper.init({
     video: _DOMVideo,
     ARCanvas: ARCanvas,    
-    threeCanvas: document.getElementById('threeCanvas'),
+    threeCanvas: threeCanvas,
     isFullScreen: true,
     NNPath: _settings.NNPath,
-    callbackReady: start,
+    callbackReady: function(){
+      start();
+
+      // fix a weird bug noticed on Chrome 98:
+      threeCanvas.style.position = 'fixed';
+      ARCanvas.style.position = 'fixed';
+    },
     loadNNOptions: _settings.loadNNOptions,
     nDetectsPerLoop: _settings.nDetectsPerLoop,
     detectOptions: _settings.detectOptions,
@@ -71,6 +79,7 @@ function init(){
     stabilizerOptions: {n: 3}
   });
 }
+
 
 // Executed when WebAR.rocks.object is initialized and NN is loaded:
 function start(){
@@ -84,10 +93,12 @@ function start(){
   animate();
 }
 
+
 // main loop (rendering + detecting):
 function animate(){
   WebARRocksObjectThreeHelper.animate();
   window.requestAnimationFrame(animate);
 }
+
 
 window.addEventListener('load', main);

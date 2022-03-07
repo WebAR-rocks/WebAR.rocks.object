@@ -22,5 +22,5 @@ body {
   height: 100vh!important;
   width: 100vw!important;
   object-fit: cover;
-  position: fixed;
+  /*position: fixed;*/
 }
