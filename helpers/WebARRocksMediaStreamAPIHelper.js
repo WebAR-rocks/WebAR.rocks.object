@@ -1,12 +1,13 @@
 /**
+ * WebAR.rocks.object
+ *
  * Copyright (c) 2020 WebAR.rocks ( https://webar.rocks )
  * This code is released under dual licensing:
  *   - GPLv3 
  *   - Nominative commercial license
  * Please read https://github.com/WebAR-rocks/WebAR.rocks.object/blob/master/LICENSE
  * 
-*/"use strict;"
-var WebARRocksMediaStreamAPIHelper = {
+*/const WebARRocksMediaStreamAPIHelper = {
   get_videoElement: function() {
     if (!WebARRocksMediaStreamAPIHelper.compat()) return false;
     const vid = document.createElement("video");
@@ -422,7 +423,6 @@ var WebARRocksMediaStreamAPIHelper = {
                   document['body']['appendChild'](video);
                   WebARRocksMediaStreamAPIHelper.mute(video);
 
-                  on_successRaw(video, localMediaStream, optionsReturned);
                   setTimeout(function(){
                     video['style']['transform'] = 'scale(0.0001,0.0001)';
                     video['style']['position'] = 'fixed';
@@ -433,6 +433,7 @@ var WebARRocksMediaStreamAPIHelper = {
                     // from https://github.com/jeeliz/jeelizFaceFilter/issues/45
                     setTimeout(function () {
                       video['play']();
+                      on_successRaw(video, localMediaStream, optionsReturned);
                     }, 100);
 
                   }, 80);
@@ -493,7 +494,15 @@ var WebARRocksMediaStreamAPIHelper = {
     return promise;
   }, //end get_raw()
 
-  
+
+  /* Wrapper with promise for get method: */
+  get_promise: function(mandatory, videoArg){
+    const video = videoArg || WebARRocksMediaStreamAPIHelper.get_videoElement();
+    return new Promise(function(accept, reject){
+      WebARRocksMediaStreamAPIHelper.get(video, accept, reject, mandatory);
+    });
+  },
+
 
   /* MAIN FUNCTION. ARGUMENTS:
    * video: DOM video element (not jquery !!!)
@@ -504,7 +513,7 @@ var WebARRocksMediaStreamAPIHelper = {
    
   get: function(video, callbackSuccess, callbackError, mandatory) {
     if (!video){
-      console.log('ERROR in WebARRocksMediaStreamAPIHelper.js - get(): No video provided');
+      console.log('ERROR in WebARRocksMediaStreamAPIHelper - get(): No video provided');
       if (callbackError){
         callbackError('VIDEO_NOTPROVIDED');
       }
@@ -512,7 +521,7 @@ var WebARRocksMediaStreamAPIHelper = {
     }
 
     if (!WebARRocksMediaStreamAPIHelper.compat()){
-      console.log('ERROR in WebARRocksMediaStreamAPIHelper.js - get(): No getUserMedia API found !');
+      console.log('ERROR in WebARRocksMediaStreamAPIHelper - get(): No getUserMedia API found !');
       if (callbackError){
         callbackError('MEDIASTREAMAPI_NOTFOUND');
       }
