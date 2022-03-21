@@ -5,7 +5,7 @@ const _settings = {
     notHereFactor: 0.0,
     paramsPerLabel: {
       KEYBOARD: {
-        thresholdDetect: 0.7
+        thresholdDetect: 0.9
       }
     }
   },
@@ -19,7 +19,7 @@ const _settings = {
     trackingFactors: [0.2, 0.2, 0.2]
   },
 
-  NNPath: '../../../neuralNets/NN_KEYBOARD_3.json', //BEST
+  NNPath: '../../../neuralNets/NN_KEYBOARD_5.json', //BEST
   //NNPath: '../../../../../../../neuralNets/raw/objectTrackingKeyboards/ARKeyboard0_2020-10-05_5_5.json',
 
   cameraFov: 0,//WebARRocksMediaStreamAPIHelper.evaluate_verticalFoV(),  // vertical field of View of the 3D camera in degrees. set 75 for mobile, 55 for desktop
@@ -38,7 +38,6 @@ const _settings = {
 
 // some globals:
 let _DOMVideo = null;
-
 
 // entry point:
 function main(){

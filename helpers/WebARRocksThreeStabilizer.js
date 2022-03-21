@@ -247,7 +247,11 @@ const WebARRocksThreeStabilizer = (function(){
 
           // debug means. It will stabilize but add a lot of latency:
           //_positionStabilized.copy(_positionMean);
-          _quaternionStabilized.copy(_quaternionMean);
+          //_quaternionStabilized.copy(_quaternionMean);
+
+          // debug: disable position or rotation:
+          //_positionStabilized.set(0,0,-3);
+          //_quaternionStabilized.set(0,0,0,1);
 
           apply_positionQuaternion(_positionStabilized, _quaternionStabilized);
           increment_cursor();

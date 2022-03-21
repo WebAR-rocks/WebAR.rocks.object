@@ -8,7 +8,7 @@ import threeHelper from '../contrib/WebARRocksObject/helpers/WebARRocksObjectThr
 import mediaStreamAPIHelper from '../contrib/WebARRocksObject/helpers/WebARRocksMediaStreamAPIHelper.js'
 
 // import neural network model:
-import NN from '../contrib/WebARRocksObject/neuralNets/NN_COFFEE_1.json'
+import NN from '../contrib/WebARRocksObject/neuralNets/NN_COFFEE_2.json'
 
 // Coffee animation - outside the Three Fiber paradigm:
 import CoffeeAnimation from './CoffeeAnimation.js'

@@ -8,7 +8,7 @@ import threeHelper from '../contrib/WebARRocksObject/helpers/WebARRocksObjectThr
 import mediaStreamAPIHelper from '../contrib/WebARRocksObject/helpers/WebARRocksMediaStreamAPIHelper.js'
 
 // import neural network model:
-import NN from '../contrib/WebARRocksObject/neuralNets/NN_KEYBOARD_3.json'
+import NN from '../contrib/WebARRocksObject/neuralNets/NN_KEYBOARD_5.json'
 
 import BackButton from '../components/BackButton'
 
