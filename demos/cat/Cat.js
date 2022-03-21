@@ -1,5 +1,3 @@
-"use strict";
-
 /*
 Usage: Cat.init(<dict> spec) with spec having these properties:
   - onSuccess: success callback
@@ -12,7 +10,7 @@ const Cat = (function(){
   const _settings = {
     neuralNet: '../../neuralNets/NN_CAT_0.json',
     
-    thresholdDetectFactor: 0.75,//0.76,
+    thresholdDetectFactor: 0.7,//0.76,
     nDetectionsPerLoop: 3,
     animateDelay: 1, //in ms
     scan: {
@@ -20,8 +18,9 @@ const Cat = (function(){
       nScaleLevels: 2,
       scale0Factor: 0.8,
       overlapFactors: [3, 3, 3],
+      lockStabilizeEnabled: false
     },
-    trackingFactors: [2.0, 2.0, 1.0],
+    trackingFactors: [1.0, 1.0, 1.0],
     thresholdDetectFactorUnstitch: 0.5,
     shrinkMarkerFactor: 0.7,
 
@@ -110,6 +109,7 @@ const Cat = (function(){
     });
   }
 
+
   function start(){
     _state = _states.run;
     document.addEventListener("scroll", on_scroll);
@@ -133,6 +133,7 @@ const Cat = (function(){
     // launch drawing and detection loop:
     tick_iterate();
   }
+
 
   function on_error(msg){
     if (_state===_states.error){
@@ -219,6 +220,7 @@ const Cat = (function(){
     _animateAnimationFrame = window.requestAnimationFrame(tick_iterate);
   }
 
+
   function pause(){
     if (_state!==_states.run){
       return;
@@ -234,6 +236,7 @@ const Cat = (function(){
       _animateTimeout = null;
     }
   }
+
 
   function wake(){
     if (_state !== _states.paused){
