@@ -6,7 +6,6 @@ Dependancies:
 - TeapotBufferGeometry.js
 */
 
-"use strict";
 
 const CoffeeAnimation = (function(){
 
@@ -120,7 +119,8 @@ const CoffeeAnimation = (function(){
   function init_teaPot(){
     const teapotGeometry = new THREE.TeapotBufferGeometry(0.06, 8);
     const teapotMaterial = new THREE.MeshLambertMaterial({
-      color: _settings.teapotColor
+      color: _settings.teapotColor,
+      side: THREE.DoubleSide
     });
     _threeObjects.teapot = new THREE.Mesh(teapotGeometry, teapotMaterial);
     _threeObjects.teapot.position.set(-0.09,0.085,0)
@@ -130,6 +130,7 @@ const CoffeeAnimation = (function(){
     const aLight = new THREE.AmbientLight( _settings.ambientLightColor, _settings.ambientLightIntensity );
     _threeObjects.main.add(aLight, dLight);
   }
+
 
   function start_teapotRotation(onComplete){
     _threeObjects.teapot.rotation.z = 0; // horizontal position
@@ -181,6 +182,7 @@ const CoffeeAnimation = (function(){
       return _threeObjects.mainWrapper;
     },
 
+
     // start the animation:
     start: function(onComplete){
       if (_state !== _states.idle){
@@ -207,6 +209,7 @@ const CoffeeAnimation = (function(){
       return true;
     },
 
+
     // reset the animation:
     reset: function(){
       _threeObjects.main.visible = false;
@@ -218,6 +221,7 @@ const CoffeeAnimation = (function(){
       _timers.splice(0, _timers.length);
       _state = _states.idle;
     },
+
 
     // should be executed at each rendering loop
     update: function(){

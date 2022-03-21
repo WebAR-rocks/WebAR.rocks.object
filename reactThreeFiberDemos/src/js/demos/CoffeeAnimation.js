@@ -5,9 +5,7 @@ Coffee Animation
 import * as THREE from 'three'
 import * as TWEEN from 'tween'
 
-// import TeapotBufferGeometry- originally in examples/jsm/geometries/
-import { TeapotBufferGeometry } from '../contrib/three/v119/TeapotBufferGeometry.js'
-
+import { TeapotGeometry } from 'three/examples/jsm/geometries/TeapotGeometry'
 
 const CoffeeAnimation = (function(){
 
@@ -59,7 +57,7 @@ const CoffeeAnimation = (function(){
 
     const material = new THREE.SpriteMaterial( {
       map: new THREE.TextureLoader().load( _spec.coffeeSpriteTextureImage ),
-      blending: THREE.NormalBlending,
+      blending: THREE.NormalBlending
     } );
 
     for ( let i = 0; i < _settings.particlesCount; ++i ) {
@@ -123,9 +121,10 @@ const CoffeeAnimation = (function(){
 
   //BEGIN TEAPOT
   function init_teaPot(){
-    const teapotGeometry = new TeapotBufferGeometry(0.06, 8);
+    const teapotGeometry = new TeapotGeometry(0.06, 8);
     const teapotMaterial = new THREE.MeshLambertMaterial({
-      color: _settings.teapotColor
+      color: _settings.teapotColor,
+      side: THREE.DoubleSide
     });
     _threeObjects.teapot = new THREE.Mesh(teapotGeometry, teapotMaterial);
     _threeObjects.teapot.position.set(-0.09,0.085,0)
