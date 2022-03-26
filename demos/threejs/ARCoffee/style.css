@@ -11,11 +11,15 @@ body {
 
 #threeCanvas {
   z-index: 10;
+  /*outline: 1px solid red;
+  outline-offset: -1px;*/
 }
 
 #webcamVideo {
   z-index: 1;
   object-fit: cover;
+  /*outline: 3px solid lime;
+  outline-offset: -3px;*/
 }
  
 #threeCanvas, #webcamVideo {
