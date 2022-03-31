@@ -163,14 +163,14 @@ const WebARRocksThreeStabilizer = (function(){
         _stab1.angularStrengthDamper.copy(_stab1.angularVelocity);
         scale_quat(_stab1.angularStrengthDamper, -_spec.angularDamperStrength);
         _stab1.angularStrength.slerpQuaternions(_stab1.angularStrengthSpring, _stab1.angularStrengthDamper, 0.5);
-       
+        
         // update cinematics:
         // compute deltas
         _stab1.angularDVelocity.copy(_stab1.angularStrength);
         scale_quat(_stab1.angularDVelocity, dt);
         _stab1.angularD.copy(_stab1.angularVelocity);
         scale_quat(_stab1.angularD, dt);
-
+        
         // apply deltas:
         _stab1.angularVelocity.premultiply(_stab1.angularDVelocity).normalize();
         _stabilizedQuaternion1.premultiply(_stab1.angularD).normalize();
@@ -201,6 +201,7 @@ const WebARRocksThreeStabilizer = (function(){
 
       // from https://stackoverflow.com/questions/62457529/how-do-you-get-the-axis-and-angle-representation-of-a-quaternion-in-three-js
       function set_axisAngleFromQuaternion(q, axisAngle) {
+        q.normalize(); // make sure q.w <= 1.0
         const angle = 2 * Math.acos(q.w);
         const s = (1.0 - q.w * q.w < 0.000001) ? 1.0 : Math.sqrt(1.0 - q.w * q.w);
         axisAngle.axis.set(q.x/s, q.y/s, q.z/s).normalize();
@@ -288,7 +289,7 @@ const WebARRocksThreeStabilizer = (function(){
             _prevState.isSet = true;
           }
           ++_counter;
-
+          
           apply_pose(_stabilizedQuaternion1, _stabilizedPosition1);
         },
 
