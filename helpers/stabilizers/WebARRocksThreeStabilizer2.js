@@ -26,6 +26,7 @@ The neural networks for these use case produce strong instabilities in rotation 
 
 gen specs:
   - <THREE.Object3D> obj3D: Object to stabilize
+  - <int> delay: number of iterations before starting stabilization
 
 specs for first algo:
   - <bool> isStab0Enabled: whether we enable the first stabilization algo
@@ -51,6 +52,7 @@ const WebARRocksThreeStabilizer = (function(){
       const _spec = Object.assign({ // default values:
         // gen specs:
         dtRangeMs: [4, 30],
+        delay: 20,
 
         // first stabilization algo:
         isStab0Enabled: true,
@@ -75,6 +77,8 @@ const WebARRocksThreeStabilizer = (function(){
         h: 0.0,
         t: 0.0
       };
+
+      let _counter = 0;
 
       // pose0:
       const _stabilizedPosition0 = new THREE.Vector3();
@@ -221,7 +225,7 @@ const WebARRocksThreeStabilizer = (function(){
           const w = detectState.positionScale[2];
           const h = detectState.positionScale[3];
           
-          if (_prevState.isSet){
+          if (_prevState.isSet && _counter >= _spec.delay){
             // alpha is stabilization coefficient
             const alpha = compute_alpha(x, y, w, h, detectState.NNInputWidth);
             _stabilizedPosition0.lerp(threePosition, alpha);
@@ -242,7 +246,7 @@ const WebARRocksThreeStabilizer = (function(){
         // second stabilization: use a damper/spring system between 
         // pose0 and pose1;
         const t = Date.now();
-        if (_prevState.isSet){
+        if (_prevState.isSet && _counter >= _spec.delay){
           let dt = t - _prevState.t;
           dt = clamp(dt, _spec.dtRangeMs[0], _spec.dtRangeMs[1]) / 1000.0; // in seconds
           for (let i=0; i<_spec.angularStepsCount; ++i){
@@ -283,6 +287,7 @@ const WebARRocksThreeStabilizer = (function(){
           if (!_prevState.isSet){
             _prevState.isSet = true;
           }
+          ++_counter;
 
           apply_pose(_stabilizedQuaternion1, _stabilizedPosition1);
         },
@@ -290,6 +295,7 @@ const WebARRocksThreeStabilizer = (function(){
 
         reset: function(){
           console.log('Reset stabilization');
+          _counter = 0;
           _prevState.isSet = false;
         }
       };
