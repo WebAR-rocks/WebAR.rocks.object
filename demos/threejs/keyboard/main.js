@@ -29,6 +29,7 @@ const _settings = {
     overlapFactors: [2, 2, 3],
     scanCenterFirst: true,
     scaleXRange: [1/15, 1.2]
+    //,lockStabilizeEnabled: false
   },
 
   followZRot: false
@@ -102,10 +103,9 @@ function init(){
     cameraFov: _settings.cameraFov,
     followZRot: _settings.followZRot,
     scanSettings: _settings.scanSettings,
-    stabilizerOptions: {n: 3}
+    stabilizerOptions: {}
   });
 }
-
 
 // Executed when WebAR.rocks.object is initialized and NN is loaded:
 function start(){

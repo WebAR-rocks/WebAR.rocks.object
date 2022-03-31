@@ -62,6 +62,11 @@ const WebARRocksObjectThreeHelper = (function(){
     scanSettings: null
   };
 
+  const _videoRes = {
+    width: -1,
+    height: -1
+  };
+
   const _deg2rad = Math.PI / 180;
 
   let _spec = null;
@@ -71,7 +76,7 @@ const WebARRocksObjectThreeHelper = (function(){
     init: function(spec){
       // Extract parameters:
       _spec = Object.assign({}, _defaultSpec, spec, {
-        isStabilized: (spec.stabilizerOptions !== undefined && WebARRocksThreeStabilizer) ? true : false
+        isStabilized: (spec.stabilizerOptions !== undefined && typeof(WebARRocksThreeStabilizer) !== 'undefined' ) ? true : false
       });
 
       // Initialize WebAR.rocks.object:
@@ -167,13 +172,13 @@ const WebARRocksObjectThreeHelper = (function(){
         _three.position.set(x, y, z);
 
         // compute rotation:
-        const dPitch = detectState.pitch - Math.PI / 2; //look up/down rotation (around X axis)
+        const dPitch = detectState.pitch - Math.PI / 2; // look up/down rotation (around X axis)
         _three.euler.set( -dPitch, detectState.yaw + Math.PI, -detectState.roll);
         _three.quaternion.setFromEuler(_three.euler);
 
         // apply position and rotation:
         if (_spec.isStabilized){
-          _stabilizers[label].update(_three.position, _three.quaternion);
+          _stabilizers[label].update(_three.position, _three.quaternion, detectState, _videoRes);
         } else { // no stabilization, directly assign position and orientation:
           threeContainer.position.copy(_three.position);
           threeContainer.quaternion.copy(_three.quaternion);
@@ -233,6 +238,8 @@ const WebARRocksObjectThreeHelper = (function(){
       // compute vertical field of view:
       const vw = _spec.video.videoWidth;
       const vh = _spec.video.videoHeight;
+      _videoRes.width = vw;
+      _videoRes.height = vh;
       const videoAspectRatio = vw / vh;
       let fov = -1;
       if (_spec.cameraFov === 0){ // auto fov

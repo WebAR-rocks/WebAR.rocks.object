@@ -8,19 +8,19 @@ Usage: Cat.init(<dict> spec) with spec having these properties:
 const Cat = (function(){
   // settings:
   const _settings = {
-    neuralNet: '../../neuralNets/NN_CAT_0.json',
+    neuralNet: '../../neuralNets/NN_CAT_1.json',
     
     thresholdDetectFactor: 0.7,//0.76,
     nDetectionsPerLoop: 3,
     animateDelay: 1, //in ms
     scan: {
-      scanCenterFirst: true,
+      scanCenterFirst: false,
       nScaleLevels: 2,
       scale0Factor: 0.8,
-      overlapFactors: [3, 3, 3],
+      overlapFactors: [5, 3, 3],
       lockStabilizeEnabled: false
     },
-    trackingFactors: [1.0, 1.0, 1.0],
+    trackingFactors: [0.5, 0.5, 0.5],
     thresholdDetectFactorUnstitch: 0.5,
     shrinkMarkerFactor: 0.7,
 
