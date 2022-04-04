@@ -105,7 +105,7 @@ const WebARRocksObjectThreeHelper = (function(){
           that.resize();
         }
         if (_spec.callbackReady){
-          _spec.callbackReady(err);
+          _spec.callbackReady(err, _three);
         }
       }, _spec.loadNNOptions);
     },
@@ -225,6 +225,17 @@ const WebARRocksObjectThreeHelper = (function(){
         return;
       }
       _callbacks[label][callbackType](args);
+    },
+
+
+    get_occluderMaterial: function(){ // return depth occlusion material:
+      return new THREE.ShaderMaterial({
+        vertexShader: THREE.ShaderLib.basic.vertexShader,
+        fragmentShader: "precision lowp float;\n void main(void){\n gl_FragColor = vec4(1.,0.,0.,1.);\n }",
+        uniforms: THREE.ShaderLib.basic.uniforms,
+        side: THREE.DoubleSide,
+        colorWrite: false
+      });
     },
 
 

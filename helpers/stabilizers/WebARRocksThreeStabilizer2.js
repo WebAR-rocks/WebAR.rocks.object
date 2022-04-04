@@ -61,6 +61,7 @@ const WebARRocksThreeStabilizer = (function(){
 
         // second stabilization algo:
         isStab1Enabled: true,
+        angleMax: Math.PI/10, // avoid instabilities
         angularStepsCount: 20,
         angularSpringStrength: 1.0,
         angularDamperStrength: 1.0,
@@ -202,9 +203,14 @@ const WebARRocksThreeStabilizer = (function(){
       // from https://stackoverflow.com/questions/62457529/how-do-you-get-the-axis-and-angle-representation-of-a-quaternion-in-three-js
       function set_axisAngleFromQuaternion(q, axisAngle) {
         q.normalize(); // make sure q.w <= 1.0
-        const angle = 2 * Math.acos(q.w);
+        let angle = 2 * Math.acos(q.w);
         const s = (1.0 - q.w * q.w < 0.000001) ? 1.0 : Math.sqrt(1.0 - q.w * q.w);
         axisAngle.axis.set(q.x/s, q.y/s, q.z/s).normalize();
+
+        if (angle > Math.PI){ // inverse axis:
+          axisAngle.axis.multiplyScalar(-1.0);
+          angle = 2*Math.PI - angle;
+        }
         axisAngle.angle = angle;
       }
 
@@ -213,8 +219,8 @@ const WebARRocksThreeStabilizer = (function(){
       // It is a pity that this func is not included in THREE Quaternion methods :(
       function scale_quat(quat, s){
         set_axisAngleFromQuaternion(quat, _axisAngleTmp);
-
-        quat.setFromAxisAngle(_axisAngleTmp.axis, _axisAngleTmp.angle * s);
+        const angle = Math.min(_axisAngleTmp.angle * s, _spec.angleMax);
+        quat.setFromAxisAngle(_axisAngleTmp.axis, angle);
       }
 
 
