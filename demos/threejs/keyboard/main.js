@@ -32,7 +32,9 @@ const _settings = {
     //,lockStabilizeEnabled: false
   },
 
-  followZRot: false
+  followZRot: false,
+
+  isUseDeviceOrientation: true,
 
   //,videoURL: '../../../../../testVideos/keyboard_1.mov' // use a video from a file instead of the camera video
 };
@@ -89,7 +91,9 @@ function init(){
     ARCanvas: ARCanvas,    
     threeCanvas: threeCanvas,
     isFullScreen: true,
+
     NNPath: _settings.NNPath,
+    
     callbackReady: function(){
       start();
 
@@ -97,9 +101,14 @@ function init(){
       threeCanvas.style.position = 'fixed';
       ARCanvas.style.position = 'fixed';
     },
+
+    isUseDeviceOrientation: _settings.isUseDeviceOrientation,
+    deviceOrientationKeepRotYOnly: true,
+
     loadNNOptions: _settings.loadNNOptions,
     nDetectsPerLoop: _settings.nDetectsPerLoop,
     detectOptions: _settings.detectOptions,
+
     cameraFov: _settings.cameraFov,
     followZRot: _settings.followZRot,
     scanSettings: _settings.scanSettings,

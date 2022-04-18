@@ -31,8 +31,33 @@
 
 
 const WebARRocksObjectThreeHelper = (function(){
-  const _settings = {
-    cameraMinVideoDimFov: 35, // FoV along the minimum video dimension (height or width), in degrees
+  
+  const _defaultSpec = {
+    video: null,
+    canvas: null,
+   
+    // pose computation: 
+    zOffset: 0.5,
+    followZRot: false,
+    isUseDeviceOrientation: false,
+    deviceOrientationDOMTrigger: null,
+    deviceOrientationDOMTriggerOnClick: null,
+    deviceOrientationKeepRotYOnly: false,
+    deviceOrientationEnableDelay: 30, // number of iterations before enabling the feature
+    
+    // detection and tracking:
+    nDetectsPerLoop: 0,
+    detectOptions: null,
+    scanSettings: null,
+
+    // stabilization:
+    isStabilized: false,
+    stabilizerOptions: null,
+
+    // display:
+    isFullScreen: false,
+    cameraFov: 0, // auto FoV computation
+    cameraMinVideoDimFov: 35, // FoV along the minimum video dimension (height or width), in degrees. used only if auto FoV
     cameraZNear: 0.1,
     cameraZFar: 500
   };
@@ -48,19 +73,6 @@ const WebARRocksObjectThreeHelper = (function(){
   };
 
   const _stabilizers = {};
-  
-  const _defaultSpec = {
-    zOffset: 0.5,
-    video: null,
-    canvas: null,
-    isStabilized: false,
-    stabilizerOptions: null,
-    nDetectsPerLoop: 0,
-    detectOptions: null,
-    isFullScreen: false,
-    followZRot: false,
-    scanSettings: null
-  };
 
   const _videoRes = {
     width: -1,
@@ -68,9 +80,66 @@ const WebARRocksObjectThreeHelper = (function(){
   };
 
   const _deg2rad = Math.PI / 180;
+  const _deviceOrientation = {
+    isEnabled: false,
+    quatCamToWorld: null,
+    quatObjToWorld: null,
+    counter: 0
+  };
 
   let _spec = null;
   const _callbacks = {};
+
+
+  function init_deviceOrientation(){
+    if (!_spec.isUseDeviceOrientation){
+      return Promise.reject();
+    }
+    if (typeof(DeviceOrientationHelper) === 'undefined'){
+      throw new Error('Please include DeviceOrientationHelper.js to use isUseDeviceOrientation option');
+    }
+    return DeviceOrientationHelper.init({
+      THREE: THREE,
+      DOMTrigger: _spec.deviceOrientationDOMTrigger,
+      DOMTriggerOnClick: _spec.deviceOrientationDOMTriggerOnClick,
+      isRejectIfMissing: true,
+      DOMRetryTrigger: _three.renderer.domElement,
+      debugAlerts: false
+    });
+  }
+
+  
+  function update_orientationFromDeviceOrientation(quatObjToCam, quatTarget){
+    ++ _deviceOrientation.counter;
+
+    if ( _deviceOrientation.counter < _spec.deviceOrientationEnableDelay){
+      // first detections, we consider the results of the neural network
+      // is not reliable enough to compute quatObjToWorld
+      return;
+    }
+
+    const quatWorldToCam = DeviceOrientationHelper.update();
+    _deviceOrientation.quatCamToWorld.copy(quatWorldToCam).invert();
+      
+    // compute _deviceOrientation.quatObjToWorld:
+    if ( _deviceOrientation.counter === _spec.deviceOrientationEnableDelay ){
+      _deviceOrientation.quatObjToWorld.copy(quatObjToCam).premultiply(quatWorldToCam);
+      if (_spec.deviceOrientationKeepRotYOnly){
+        const eulerOrder = 'YXZ';
+        const eulerObjToWorld = new THREE.Euler().setFromQuaternion(_deviceOrientation.quatObjToWorld, eulerOrder);
+        eulerObjToWorld.set(0.0, eulerObjToWorld.y, 0.0, eulerOrder);
+        _deviceOrientation.quatObjToWorld.setFromEuler(eulerObjToWorld);
+      }
+    }
+
+    quatTarget.copy(_deviceOrientation.quatObjToWorld).premultiply(_deviceOrientation.quatCamToWorld);
+
+    // DEBUG ZONE:
+    //quatTarget.identity(); // in keyboard demo, display cube always facing camera
+    //quatTarget.copy(quatWorldToCam); // in keyboard demo, rot movement seems inverted
+    //quatTarget.copy(_deviceOrientation.quatCamToWorld); // in keyboard demo, rot movement good but rot offset
+  }
+
 
   const that = {
     init: function(spec){
@@ -94,7 +163,7 @@ const WebARRocksObjectThreeHelper = (function(){
       });
 
       _three.scene = new THREE.Scene();
-      _three.camera = new THREE.PerspectiveCamera( _spec.cameraFov, _spec.threeCanvas.width / _spec.threeCanvas.height, _settings.cameraZNear, _settings.cameraZFar );
+      _three.camera = new THREE.PerspectiveCamera( _spec.cameraFov, _spec.threeCanvas.width / _spec.threeCanvas.height, _spec.cameraZNear, _spec.cameraZFar );
       _three.euler = new THREE.Euler(0, 0, 0, 'ZXY');
       _three.position = new THREE.Vector3();
       _three.quaternion = new THREE.Quaternion();
@@ -103,6 +172,13 @@ const WebARRocksObjectThreeHelper = (function(){
       WEBARROCKSOBJECT.set_NN(_spec.NNPath, function(err){
         if (!err){
           that.resize();
+          init_deviceOrientation().then(function(){
+            _deviceOrientation.isEnabled = true;
+            _deviceOrientation.quatCamToWorld = new THREE.Quaternion();
+            _deviceOrientation.quatObjToWorld = new THREE.Quaternion();
+          }).catch(function(err){
+            console.log('Device Orientation API is not used');
+          });
         }
         if (_spec.callbackReady){
           _spec.callbackReady(err, _three);
@@ -139,6 +215,7 @@ const WebARRocksObjectThreeHelper = (function(){
             that.trigger_callback(label, 'onloose');
           }
           threeContainer.visible = false;
+          _deviceOrientation.counter = 0;
           continue;
         }
         
@@ -150,7 +227,7 @@ const WebARRocksObjectThreeHelper = (function(){
           that.trigger_callback(label, 'ondetect');
         }
         threeContainer.visible = true;
-        
+
         // compute position:
         const halfTanFOV = Math.tan(_three.camera.aspect * _three.camera.fov * _deg2rad / 2); 
 
@@ -182,6 +259,10 @@ const WebARRocksObjectThreeHelper = (function(){
         } else { // no stabilization, directly assign position and orientation:
           threeContainer.position.copy(_three.position);
           threeContainer.quaternion.copy(_three.quaternion);
+        }
+
+        if (_deviceOrientation.isEnabled){
+          update_orientationFromDeviceOrientation(threeContainer.quaternion, threeContainer.quaternion);
         }
       } //end for
 
@@ -255,7 +336,7 @@ const WebARRocksObjectThreeHelper = (function(){
       let fov = -1;
       if (_spec.cameraFov === 0){ // auto fov
         const fovFactor = (vh > vw) ? (1.0 / videoAspectRatio) : 1.0;
-        fov = _settings.cameraMinVideoDimFov * fovFactor;        
+        fov = _spec.cameraMinVideoDimFov * fovFactor;        
       } else {
         fov = _spec.cameraFov;
       }
