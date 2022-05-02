@@ -13,7 +13,10 @@
 
 /* eslint-disable */
 
-import * as THREE from 'three';
+import {
+  Quaternion,
+  Vector3
+} from 'three';
 
 /*
 spec:
@@ -37,7 +40,7 @@ const WebARRocksThreeStabilizer = (function(){
   function compute_velocityPositionMean(cursor, positions, dts, result){
     const n = positions.length;
     result.set(0, 0, 0);
-    const dv = new THREE.Vector3();
+    const dv = new Vector3();
     for (let i=0; i<n-1; ++i){
       const c = (n + cursor - i) % n;
       const cPrev = (c === 0) ? n-1 : c-1;
@@ -71,7 +74,7 @@ const WebARRocksThreeStabilizer = (function(){
 
   function compute_positionsSigma(positions, mean, result){
     result.set(0, 0, 0);
-    const diff = new THREE.Vector3();
+    const diff = new Vector3();
     positions.forEach(function(pos){
       diff.copy(pos).sub(mean);
       diff.set(diff.x*diff.x, diff.y*diff.y, diff.z*diff.z);
@@ -114,30 +117,30 @@ const WebARRocksThreeStabilizer = (function(){
       const _lastDts = [];
       const _lastTimestamps = [];
       for (let i=0; i<_N; ++i){
-        _lastPositions.push(new THREE.Vector3());
-        _lastQuaternions.push(new THREE.Quaternion());
+        _lastPositions.push(new Vector3());
+        _lastQuaternions.push(new Quaternion());
         _lastDts.push(0);
         _lastTimestamps.push(0);
       }
       let _sumDt = 0;
 
       // mean pose:
-      const _positionMean = new THREE.Vector3();
-      const _quaternionMean = new THREE.Quaternion();
+      const _positionMean = new Vector3();
+      const _quaternionMean = new Quaternion();
 
       // mean velocity:
-      const _velocityPositionMean = new THREE.Vector3();
+      const _velocityPositionMean = new Vector3();
       let _velocityAngleMean = 0;
 
-      const _positionSigma = new THREE.Vector3();
+      const _positionSigma = new Vector3();
 
       // difference between mean and current:
-      const _diffPosition = new THREE.Vector3();
-      const _diffQuaternion = new THREE.Quaternion();
+      const _diffPosition = new Vector3();
+      const _diffQuaternion = new Quaternion();
       
       // stabilized pose:
-      const _positionStabilized = new THREE.Vector3();
-      const _quaternionStabilized = new THREE.Quaternion();
+      const _positionStabilized = new Vector3();
+      const _quaternionStabilized = new Quaternion();
 
 
       // private dynamic functions:
@@ -191,7 +194,7 @@ const WebARRocksThreeStabilizer = (function(){
           const quatSlerps = [];
           const l = Math.pow(2, i);
           for (let j=0; j<l; ++j) {
-            quatSlerps.push(new THREE.Quaternion());
+            quatSlerps.push(new Quaternion());
           }
           _quaternionSlerps.push(quatSlerps);
         }

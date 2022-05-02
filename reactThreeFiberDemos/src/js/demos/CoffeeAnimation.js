@@ -2,7 +2,19 @@
 Coffee Animation
 */
 
-import * as THREE from 'three'
+import {
+  AmbientLight,
+  DirectionalLight,
+  DoubleSide,
+  Mesh,
+  MeshLambertMaterial,
+  NormalBlending,
+  Object3D,
+  Sprite,
+  SpriteMaterial,
+  TextureLoader
+} from 'three'
+
 import * as TWEEN from 'tween'
 
 import { TeapotGeometry } from 'three/examples/jsm/geometries/TeapotGeometry'
@@ -51,17 +63,17 @@ const CoffeeAnimation = (function(){
   //BEGIN PARTICLE FUNCTIONS
   // particle system is inspired from: https://threejs.org/examples/#canvas_particles_sprites
   function init_particles(){
-    _threeObjects.particles = new THREE.Object3D();
+    _threeObjects.particles = new Object3D();
     _threeObjects.main.add(_threeObjects.particles);
     _threeObjects.particles.visible = false;
 
-    const material = new THREE.SpriteMaterial( {
-      map: new THREE.TextureLoader().load( _spec.coffeeSpriteTextureImage ),
-      blending: THREE.NormalBlending
+    const material = new SpriteMaterial( {
+      map: new TextureLoader().load( _spec.coffeeSpriteTextureImage ),
+      blending: NormalBlending
     } );
 
     for ( let i = 0; i < _settings.particlesCount; ++i ) {
-      const particle = new THREE.Sprite( material );
+      const particle = new Sprite( material );
       _threeObjects.particles.add( particle );
     }
   }
@@ -81,7 +93,7 @@ const CoffeeAnimation = (function(){
 
 
   function init_particle( particle0, delay0 ) {
-    const particle = (this instanceof THREE.Sprite) ? this : particle0;
+    const particle = (this instanceof Sprite) ? this : particle0;
     if (_state !== _states.potFlowing){
       particle.visible = false;
       return;
@@ -122,16 +134,16 @@ const CoffeeAnimation = (function(){
   //BEGIN TEAPOT
   function init_teaPot(){
     const teapotGeometry = new TeapotGeometry(0.06, 8);
-    const teapotMaterial = new THREE.MeshLambertMaterial({
+    const teapotMaterial = new MeshLambertMaterial({
       color: _settings.teapotColor,
-      side: THREE.DoubleSide
+      side: DoubleSide
     });
-    _threeObjects.teapot = new THREE.Mesh(teapotGeometry, teapotMaterial);
+    _threeObjects.teapot = new Mesh(teapotGeometry, teapotMaterial);
     _threeObjects.teapot.position.set(-0.09,0.085,0)
     _threeObjects.main.add(_threeObjects.teapot);
 
-    const dLight = new THREE.DirectionalLight( _settings.directionalLightColor, _settings.directionalLightIntensity );
-    const aLight = new THREE.AmbientLight( _settings.ambientLightColor, _settings.ambientLightIntensity );
+    const dLight = new DirectionalLight( _settings.directionalLightColor, _settings.directionalLightIntensity );
+    const aLight = new AmbientLight( _settings.ambientLightColor, _settings.ambientLightIntensity );
     _threeObjects.main.add(aLight, dLight);
   }
 
@@ -169,10 +181,10 @@ const CoffeeAnimation = (function(){
 
       _state = _states.loading;
 
-      _threeObjects.main = new THREE.Object3D();
+      _threeObjects.main = new Object3D();
       _threeObjects.main.visible = false;
 
-      _threeObjects.mainWrapper = new THREE.Object3D();
+      _threeObjects.mainWrapper = new Object3D();
       _threeObjects.mainWrapper.add(_threeObjects.main);
       
       init_teaPot();

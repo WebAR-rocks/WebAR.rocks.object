@@ -14,7 +14,12 @@
 
 /* eslint-disable */
 
-import * as THREE from 'three';
+import {
+  Euler,
+  Matrix4,
+  Quaternion,
+  Vector3
+} from 'three';
 
 import WebARRocksThreeStabilizer from './WebARRocksThreeStabilizer.js';
 
@@ -110,10 +115,10 @@ const WebARRocksObjectThreeHelper = (function(){
         scanSettings: _spec.scanSettings
       });
 
-      _three.euler = new THREE.Euler(0, 0, 0, 'ZXY');
-      _three.position = new THREE.Vector3();
-      _three.quaternion = new THREE.Quaternion();
-      _threeProjMatrix = new THREE.Matrix4();
+      _three.euler = new Euler(0, 0, 0, 'ZXY');
+      _three.position = new Vector3();
+      _three.quaternion = new Quaternion();
+      _threeProjMatrix = new Matrix4();
 
       // Set neural network model:
       WEBARROCKSOBJECT.set_NN(_spec.NN, function(err){
