@@ -384,8 +384,8 @@ const WebARRocksMediaStreamAPIHelper = {
                 return;
               }
               // avoid video freezing on Safari:
-              if (vw) video['style']['width']  = vw.toString() + 'px';
-              if (vh) video['style']['height'] = vh.toString() + 'px';
+              //if (vw) video['style']['width']  = vw.toString() + 'px';
+              //if (vh) video['style']['height'] = vh.toString() + 'px';
 
               const optionsReturned = {
                 capabilities: null,
@@ -525,12 +525,13 @@ const WebARRocksMediaStreamAPIHelper = {
       }
 
       // see https://stackoverflow.com/questions/45692526/ios-11-getusermedia-not-working:
-      if (mandatory['video']['width'] && mandatory['video']['width']['ideal']){
+      // disabled on 2022-07-20
+      /*if (mandatory['video']['width'] && mandatory['video']['width']['ideal']){
         video['style']['width'] = mandatory['video']['width']['ideal'] + 'px';
       }
       if (mandatory['video']['height'] && mandatory['video']['height']['ideal']){
         video['style']['height'] = mandatory['video']['height']['ideal'] + 'px';
-      }
+      }*/
     } //end if mandatory.video
 
     WebARRocksMediaStreamAPIHelper.enable_HTMLprop(video, 'autoplay');

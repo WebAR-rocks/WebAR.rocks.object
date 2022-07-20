@@ -175,6 +175,16 @@ const Sprite = (props) => {
     transform: 'translate(-50%, -50%)'      
   }
 
+  const cameraVideoStyle = {
+    zIndex: 1,
+    top: 0,
+    left: 0,
+    position: 'fixed',
+    objectFit: 'cover',
+    width: '100vw',
+    height: '100%'
+  }
+
   return (
     <div>
       {/* Canvas managed by three fiber, for AR: */}
@@ -193,9 +203,7 @@ const Sprite = (props) => {
       </Canvas>
 
       {/* Video */}
-      <video className='forceAutoWidthHeight' style={Object.assign({
-        zIndex: 1
-      }, commonStyle)} ref={cameraVideoRef}></video>
+      <video style={cameraVideoStyle} ref={cameraVideoRef}></video>
 
       {/* Canvas managed by WebAR.rocks.object, used for WebGL computations) */}
       <canvas ref={canvasComputeRef} style={{display: 'none'}} width={512} height={512} />
