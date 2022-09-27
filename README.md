@@ -101,7 +101,7 @@ They are written in static JavaScript
 * Cat recognition: [live demo](https://webar.rocks/demos/object/demos/cat/) [source code](/demos/cat/) [Youtube video](https://www.youtube.com/watch?v=MqvweemM_-I)
 * THREE.js Sprite 33cl (12oz) can detection demo: [source code](/demos/threejs/sprite/) [live demo](https://webar.rocks/demos/object/demos/threejs/sprite/)
 * Standalone AR Coffee demo: [source code](/demos/threejs/ARCoffee) [live demo](https://webar.rocks/demos/object/demos/threejs/ARCoffee/) [Youtube video](https://youtu.be/a09NSXp_ENU)
-* Keyboard detection and tracking demo: [source code](/demos/threejs/keyboard/) [live demo](ttps://webar.rocks/demos/object/demos/threejs/keyboard/)
+* Keyboard detection and tracking demo: [source code](/demos/threejs/keyboard/) [live demo](https://webar.rocks/demos/object/demos/threejs/keyboard/). [Coffee on keyboard demo](https://webar.rocks/demos/coffeeKeyboard/)
 
 ### Standalone ES6 demos
 
