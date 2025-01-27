@@ -31,10 +31,10 @@ const CoffeeAnimation = (function(){
 
     // colors and lighting:
     teapotColor: 0xa0a0a0,
-    ambientLightColor: 0xffeeaa,
+    ambientLightColor: 0xaaaaff,
     ambientLightIntensity: 0.3,
     directionalLightColor: 0xffffff,
-    directionalLightIntensity: 1.0
+    directionalLightIntensity: 3
   };
 
   const _threeObjects = {

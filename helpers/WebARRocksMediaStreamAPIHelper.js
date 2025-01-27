@@ -1,13 +1,29 @@
 /**
- * WebAR.rocks.object
- *
- * Copyright (c) 2020 WebAR.rocks ( https://webar.rocks )
- * This code is released under dual licensing:
- *   - GPLv3 
- *   - Nominative commercial license
- * Please read https://github.com/WebAR-rocks/WebAR.rocks.object/blob/master/LICENSE
+ * MIT License
  * 
-*/const WebARRocksMediaStreamAPIHelper = {
+ * Copyright (c) 2020 WebAR.Rocks
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+*/
+
+
+const WebARRocksMediaStreamAPIHelper = {
   get_videoElement: function() {
     if (!WebARRocksMediaStreamAPIHelper.compat()) return false;
     const vid = document.createElement("video");
@@ -52,6 +68,25 @@
 
   check_isApple: function(){
     return WebARRocksMediaStreamAPIHelper.check_isSafari() || WebARRocksMediaStreamAPIHelper.check_isIOS();
+  },
+
+  setup_resourceRelease: function(video, localMediaStream){
+    // added on 2023-07-05 for a bug with IOS 16.4.1.
+    // camera video stream is not available if we hit browser history buttons previous then next
+    // so we explicitely release the video stream before leaving the page
+    window.addEventListener('beforeunload', function(){
+      if (localMediaStream && localMediaStream['getTracks']){
+        const tracks = localMediaStream['getTracks']();
+        tracks.forEach(function(track){
+          localMediaStream.removeTrack(track);
+        })
+      }
+      if (video['videoStream']) {
+        video['videoStream']['stop']();
+      }
+      video['videoStream'] = null;
+    }, false)
+
   },
 
   check_isSafari: function(){ // see https://stackoverflow.com/questions/7944460/detect-safari-browser
@@ -378,6 +413,9 @@
       }
       console.log('INFO in WebARRocksMediaStreamAPIHelper - get_raw(): callbackSuccess called with constraints=');
       console.log(JSON.stringify(constraints));
+
+      WebARRocksMediaStreamAPIHelper.setup_resourceRelease(video, localMediaStream);
+
       callbackSuccess(video, localMediaStream, optionsReturned);
     }
 
@@ -517,7 +555,7 @@
     if (!video){
       console.log('ERROR in WebARRocksMediaStreamAPIHelper - get(): No video provided');
       if (callbackError){
-        callbackError('VIDEO_NOTPROVIDED');
+        callbackError('VIDEO_NOT_PROVIDED');
       }
       return false;
     }
@@ -525,7 +563,7 @@
     if (!WebARRocksMediaStreamAPIHelper.compat()){
       console.log('ERROR in WebARRocksMediaStreamAPIHelper - get(): No getUserMedia API found!');
       if (callbackError){
-        callbackError('MEDIASTREAMAPI_NOTFOUND');
+        callbackError('MEDIASTREAMAPI_NOT_FOUND');
       }
       return false;
     };
@@ -575,7 +613,7 @@
         
         const rec_tryConstraint = function(remainingConstraints){
           if (remainingConstraints.length === 0){
-            callbackError('INVALID_FALLBACKCONSTRAINTS');
+            callbackError('NO_VALID_MEDIASTREAM_FALLBACK_CONSTRAINTS');
             return;
           }
           const testedConstraints = remainingConstraints.shift();

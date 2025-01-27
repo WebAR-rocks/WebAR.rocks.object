@@ -147,7 +147,7 @@ const ARCoffee = (props) => {
 
 
   useEffect(() => {
-    if (!_timerResize && _threeFiber){
+    if (!_timerResize && _threeFiber && _threeFiber.gl){
       _threeFiber.gl.setSize(sizing.width, sizing.height, true)
     }
   }, [sizing])
@@ -221,7 +221,6 @@ const ARCoffee = (props) => {
       gl={{
         preserveDrawingBuffer: true // allow image capture
       }}
-      updateDefaultCamera = {false}
       >
         <ThreeGrabber sizing={sizing} />
         <ObjectFollower onDetect={setIsFirstDetection.bind(null, false)} />

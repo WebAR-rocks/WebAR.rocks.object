@@ -8,7 +8,7 @@ import threeHelper from '../contrib/WebARRocksObject/helpers/WebARRocksObjectThr
 import mediaStreamAPIHelper from '../contrib/WebARRocksObject/helpers/WebARRocksMediaStreamAPIHelper.js'
 
 // import neural network model:
-import NN from '../contrib/WebARRocksObject/neuralNets/NN_SPRITE_1.json'
+import NN from '../../../../../../privateNeuralNets/NN_USQUARTER_10.json'
 
 import BackButton from '../components/BackButton'
 
@@ -23,16 +23,14 @@ const ObjectFollower = (props) => {
   const objRef = useRef()
   useEffect(() => {
     const threeObject3D = objRef.current
-    threeHelper.set_objectFollower('SPRITECAN', threeObject3D)
+    threeHelper.set_objectFollower('USQUARTER', threeObject3D)
   })
 
-  const radius = 0.31
-  const height = radius * 3.5
-  
+  const s = 1
   return (
     <object3D ref = {objRef}>
-      <mesh>
-        <cylinderGeometry args={[radius, radius, height, 20]} />
+      <mesh position={[0, s/2, 0]}>
+        <boxGeometry args={[s, s, s]} />
         <meshNormalMaterial />
       </mesh>
     </object3D>
@@ -65,7 +63,7 @@ const compute_sizing = () => {
 }
 
 
-const Sprite = (props) => {
+const Coin = (props) => {
   // init state:
   const [sizing, setSizing] = useState(compute_sizing())
   const [isInitialized] = useState(true)
@@ -80,7 +78,7 @@ const Sprite = (props) => {
     loadNNOptions: {
       notHereFactor: 0.0,
       paramsPerLabel: {
-        SPRITECAN: {
+        USQUARTER: {
           thresholdDetect: 0.6
         }
       }
@@ -91,19 +89,21 @@ const Sprite = (props) => {
       isSkipConfirmation: false,
       thresholdDetectFactor: 1,
       cutShader: 'median',
-      nConfirmUnstitchMoves: 50,
-      thresholdDetectFactorUnstitch: 0.15,
-      trackingFactors: [0.3, 0.2, 1]
+      thresholdDetectFactorUnstitch: 0.1,
+      trackingFactors: [0.5, 0.5, 0.5]
     },
 
     cameraFov: 0, // auto evaluation
-    scanSettings:{   
+    scanSettings:{
+      nScaleLevels: 3,
+      overlapFactors: [5, 5, 4],
+      scale0Factor: 0.5
     },
 
-    followZRot: true,
+    followZRot: false,
   }
   let _timerResize = null
-
+  
         
   const handle_resize = () => {
     // do not resize too often:
@@ -127,7 +127,7 @@ const Sprite = (props) => {
     }
   }, [sizing])
 
-
+ 
   useEffect(() => {
     // when videofeed is got, init WebAR.rocks.object through the threeHelper:
     const onCameraVideoFeedGot = () => {
@@ -184,6 +184,7 @@ const Sprite = (props) => {
     width: '100vw',
     height: '100%'
   }
+  
 
   return (
     <div>
@@ -196,7 +197,6 @@ const Sprite = (props) => {
       gl={{
         preserveDrawingBuffer: true // allow image capture
       }}
-      updateDefaultCamera = {false}
       >
         <ThreeGrabber sizing={sizing} />
         <ObjectFollower />
@@ -213,4 +213,4 @@ const Sprite = (props) => {
   )
 } 
 
-export default Sprite
+export default Coin

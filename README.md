@@ -55,11 +55,6 @@ Here are the main features of the library:
 
 ## Object specifications
 
-The training of a specific neural network to detect and track a targeted object (or several objects) is not included in the entry fee or license fee of this repository.
-
-We train the neural network from a 3D model The training can last from 1 week to 2 months depending on the complexity of the use-case. Contact-us to get a proposal for you specific use-case.
-
-
 ### Target object dimensions
 
 The target object needs to have an aspect ratio between 1/2.5 and 2.5. An object with an aspect ratio of 1 fits into a square (same width and same height). For example a standard Redbull can aspect ratio is 2.5 (height / diameter).
@@ -88,7 +83,7 @@ We can provide 3D modelling support.
 * `/helpers/`: scripts which can help you to use this library in some specific use cases (like WebXR),
 * `/libs/`: 3rd party libraries and 3D engines used in the demos,
 * `/neuralNets/`: neural network models,
-* `/reactThreeFiberDemos`: Demos with Webpack/NPM/React/Three Fiber.
+* `/reactViteThreeFiberDemos`: Demos with Vite/NPM/React/Three Fiber.
 
 ## Demonstrations
 
@@ -106,10 +101,13 @@ They are written in static JavaScript
 ### Standalone ES6 demos
 
 These demonstrations have been written in a modern front-end environment using:
-* NPM/Webpack/Babel/ES6 as enviromnent
+
+* NPM/Vite/ES6 as environment
 * React 
 * Three.js through Three Fiber
-You can browse adn try them in the [/reactThreeFiberDemos](/reactThreeFiberDemos) directory.
+
+You can browse adn try them in the [/reactViteThreeFiberDemos](/reactViteThreeFiberDemos) directory.
+
 
 ### WebXR viewer demos
 
@@ -373,6 +371,7 @@ The input size is the resolution of the input image of the network. The detectio
 
 ## About the tech
 
+
 ### Under the hood
 
 This library relies on WebAR.rocks WebGL Deep Learning technology to detect objects. The neural network is trained using a 3D engine and a dataset of 3D models. All is processed client-side.
@@ -392,10 +391,7 @@ If a compatibility error is triggered, please post an issue on this repository. 
 
 ## License
 
-This code repository is dual licensed. You have to choose between these 2 licenses:
-
-1. [GPLv3](GPLv3.txt) (free default option)
-2. [Nominative commercial license](https://webar.rocks/buyCommercialLicense) (not free)
+This code is released under MIT Software license.
 
 For more information, please read [LICENSE](/LICENSE) file.
 

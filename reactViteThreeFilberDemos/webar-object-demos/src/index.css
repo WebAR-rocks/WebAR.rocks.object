@@ -1,14 +1,12 @@
 @font-face {
   font-family: 'Roboto';
-  src: url(../fonts/Roboto-Regular.ttf)
+  src: url(assets/fonts/Roboto-Regular.ttf)
 }
 
-@import 'variables';
-
 html {
-  font-size: $root-font-size;
-  font-family: $font-family;
-  max-width: $page-width;
+  font-size: 1rem;
+  font-family: 'Roboto', sans-serif;
+  max-width: 800px;
   margin: 0;
   overflow: hidden;
   background-color: black;
@@ -52,10 +50,6 @@ a:hover {
   color: white;
 }
 
-p {
-  font-size: $paragraph-font-size;
-}
-
 .mirrorX {
   transform: rotateY(180deg);
 }
@@ -80,25 +74,6 @@ p {
   text-align: center;
   padding-top: 16px;
   padding-bottom: 16px;
-}
-
-.VTOButton {
-  cursor: pointer;
-  flex-grow: 1;
-  font-variant: small-caps;
-  font-size: 14pt;
-  text-align: center;
-  min-width: 110px;
-  box-sizing: border-box;
-  padding-top: 10px;
-  background: rgba(0, 0, 0, 0.5);
-  height: 40px;
-  color: #eee;
-}
-
-.VTOButton:hover {
-  background: rgba(50, 50, 50, 0.5);
-  color: #fff;
 }
 
 .VTOButtons {

@@ -31,7 +31,7 @@ const ObjectFollower = (props) => {
   return (
     <object3D ref = {objRef}>
       <mesh name="debugCube" position={[0, s/2, 0]}>
-        <boxBufferGeometry args={[s, s, s]} />
+        <boxGeometry args={[s, s, s]} />
         <meshNormalMaterial />
       </mesh>
     </object3D>
@@ -124,7 +124,7 @@ const Keyboard = (props) => {
 
 
   useEffect(() => {
-    if (!_timerResize && _threeFiber){
+    if (!_timerResize && _threeFiber && _threeFiber.gl){
       _threeFiber.gl.setSize(sizing.width, sizing.height, true)
     }
   }, [sizing])
@@ -198,7 +198,6 @@ const Keyboard = (props) => {
       gl={{
         preserveDrawingBuffer: true // allow image capture
       }}
-      updateDefaultCamera = {false}
       >
         <ThreeGrabber sizing={sizing} />
         <ObjectFollower />
