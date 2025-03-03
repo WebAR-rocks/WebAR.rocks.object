@@ -122,7 +122,7 @@ const Coin = (props) => {
 
 
   useEffect(() => {
-    if (!_timerResize && _threeFiber){
+    if (!_timerResize && _threeFiber && _threeFiber.gl){
       _threeFiber.gl.setSize(sizing.width, sizing.height, true)
     }
   }, [sizing])

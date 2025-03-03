@@ -293,8 +293,8 @@ const WebARRocksObjectThreeHelper = (function(){
     set_callback: function(label, callbackType, callbackFunc){
       if (!_callbacks[label]){
         _callbacks[label] = {
-          ondetect: null,
-          onloose: null
+          'ondetect': null,
+          'onloose': null
         }
       }
       _callbacks[label][callbackType] = callbackFunc;

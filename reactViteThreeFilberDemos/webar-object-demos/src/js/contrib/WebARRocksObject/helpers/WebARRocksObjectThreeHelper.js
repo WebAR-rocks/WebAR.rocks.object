@@ -42,6 +42,7 @@ import WEBARROCKSOBJECT from '../dist/WebARRocksObject.module.js';
   - <dict> scanSettings
   - <object> stabilizerOptions
   - <float> zOffset - 0.5 by default, relative
+  - <boolean> isKeepVisible
  */
 
 const WebARRocksObjectThreeHelper = (function(){
@@ -86,7 +87,10 @@ const WebARRocksObjectThreeHelper = (function(){
     cameraFov: 0, // auto-evaluated
     cameraMinVideoDimFov: 35, // FoV along the minimum video dimension (height or width), in degrees
     cameraZNear: 0.1,
-    cameraZFar: 5000
+    cameraZFar: 5000,
+
+    // misc:
+    isKeepVisible: false
   };
 
   const _deg2rad = Math.PI / 180;
@@ -229,7 +233,9 @@ const WebARRocksObjectThreeHelper = (function(){
           if (threeContainer.visible){
             that.trigger_callback(label, 'onloose', detectState);
           }
-          threeContainer.visible = false;
+          if (!_spec.isKeepVisible){
+            threeContainer.visible = false;
+          }
           _deviceOrientation.counter = 0;
           continue;
         }
@@ -292,8 +298,8 @@ const WebARRocksObjectThreeHelper = (function(){
     set_callback: function(label, callbackType, callbackFunc){
       if (!_callbacks[label]){
         _callbacks[label] = {
-          ondetect: null,
-          onloose: null
+          'ondetect': null,
+          'onloose': null
         }
       }
       _callbacks[label][callbackType] = callbackFunc;

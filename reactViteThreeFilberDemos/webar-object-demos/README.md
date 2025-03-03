@@ -1,4 +1,4 @@
-# WebAR.rocks.object react fiber demos
+# WebAR.rocks.object React Three Fiber Demos
 
 
 ## Presentation
@@ -10,16 +10,18 @@ This directory is fully standalone, that's why it is not in the [/demos](/demos)
 
 To test it, run from this path:
 
-```
+```bash
+# facultative: use Node >= 22:
 nvm use 22
+#
 npm install
-npm run start
+npm run dev -- --host
 ```
 
-It works with node >= 22.
+Then open https://localhost:5173/ in your web browser.
 
 
-### Production build
+## Production build
 
 ```bash
 npm run build

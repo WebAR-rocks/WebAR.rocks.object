@@ -15,7 +15,7 @@
 
 * [Features](#features)
 * [Object specifications](#object-specifications)
-  * [Target object dimensions](target-object-dimenion)
+  * [Target object](target-object)
   * [3D Model](#3d-model) 
 * [Architecture](#architecture)
 * [Demonstrations](#demonstrations)
@@ -55,24 +55,25 @@ Here are the main features of the library:
 
 ## Object specifications
 
-### Target object dimensions
+### Target object
 
-The target object needs to have an aspect ratio between 1/2.5 and 2.5. An object with an aspect ratio of 1 fits into a square (same width and same height). For example a standard Redbull can aspect ratio is 2.5 (height / diameter).
+The target object must have an aspect ratio between 1/2.5 and 2.5. An object with an aspect ratio of 1 fits into a square (equal width and height). For example, the standard Red Bull can has an aspect ratio of 2.5 (height/diameter).
 
-Elongated objects like a fork, a pen, a knife don’t match this requirement. In this case it can be easier to target only a specific part of the object (like the end of the fork).
-We only detect objects fully fitting in the field of view of the camera (i.e. not partially visible).
-We can train a neural network to detect up to 3 different objects simultaneously. The first detected object will then be tracked (we currently don’t handle simultaneous multi-object tracking). The recognized objects should have approximately the same aspect ratio.
+Elongated objects, such as a fork, a pen, or a knife, do not meet this requirement. In such cases, it may be easier to target only a specific part of the object (e.g., the end of the fork). We only detect objects that fully fit within the camera's field of view (i.e., objects that are not partially visible).
 
-Highly reflective objects are harder to detect (like shiny metallic objects).
+We can train a neural network to detect up to three different objects simultaneously. The first detected object is then tracked (we currently do not support simultaneous multi-object tracking). The recognized objects should have approximately the same aspect ratio.
+
+Highly reflective objects, such as shiny metallic items, are harder to detect. Similarly, refractive materials are more challenging due to their high variability.
+
 
 ### 3D model
 
 We don’t need any picture of the object but a 3D model.
-The 3D model should be in one of these file format: .OBJ, .GLTF, .GLB. The textures should have Power Of Two dimensions and their higher dimensions should be equal or less than 1024 pixels.
+The 3D model should be in one of the following file formats: .OBJ, .GLTF, or .GLB. The textures should have power-of-two dimensions, and their highest dimension (width or height) must be 2048 pixels or less.
 
-The 3D model should include the PBR textures if necessary (typically the metallic-roughness texture).
+If necessary, the 3D model should embed the PBR textures (typically the metallic-roughness texture).
 
-We can provide 3D modelling support.
+We provide 3D modelling support.
 
 
 ## Architecture
@@ -405,4 +406,4 @@ For more information, please read [LICENSE](/LICENSE) file.
 * [MDN Media Streams API MediaConstraints doc](https://developer.mozilla.org/en-US/docs/Web/API/Media_Streams_API/Constraints)
 * [Webgl Academy: interactive tutorials about WebGL and THREE.JS](http://www.webglacademy.com)
 * [WebAR.rocks on Linkedin](https://www.linkedin.com/company/webar-rocks)
-* [WebAR.rocks on Twitter](https://twitter.com/WebARRocks)
+* [WebAR.rocks on X](https://x.com/WebARRocks)
