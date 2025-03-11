@@ -10,6 +10,8 @@
 </p>
 
 
+🚀 **NEW: Since March 2025, you can train your own neural network using your 3D model(s) with [WebAR.rocks.train](https://github.com/WebAR-rocks/WebAR.rocks.train).**
+
 
 ## Table of contents
 
