@@ -3,6 +3,7 @@ body {
   color: white;
   overflow: hidden !important;
   font-family: 'Hepta Slab', serif;
+  background-color: #333;
 }
 
 #ARCanvas {
@@ -23,11 +24,13 @@ body {
 }
  
 #threeCanvas, #webcamVideo {
-  left: 0;
+  left: 50%;
   top: 0;
-  height: 100vh!important;
+  height: 100%!important;
   width: 100vw!important;
+  max-width: 100vh!important;
   position: fixed;
+  transform: translate(-50%);
 }
 
 a {
